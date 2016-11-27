@@ -24,5 +24,10 @@ public class MessageReceiver implements MessageListener {
 		}
 		
 	}
+	
+	@JmsListener(containerFactory="jmsListenerContainerFactory",destination="q.dropcopy")
+	public void onMsg(String msg) {
+		logger.info("message received jmslistener:"+msg);
+	}
 
 }
