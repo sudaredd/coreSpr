@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!--
+  Do not try to write to ConsoleAppender from the server.
+  Will get locking issues when the server's AbstractRefreshableApplicationContext class
+  tries to write to the Console the same time as the client does.
+  Contention will be resolved only when the client process that launched the server
+  process is killed.
+  -->
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="INFO" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} [%t] %X{msg_id} %X{pw_id} %X{fifo_id} [%-5p] %C{1}(%L) %x - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE"
+		class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/logs/core_spr.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <param name="Threshold" value="INFO" />
+        <layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+            	value="%d{ISO8601} [%t] %X{msg_id} %X{pw_id} %X{fifo_id} %-5p (%c:%L) %x - %m%n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+</log4j:configuration>
