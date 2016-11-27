@@ -10,7 +10,7 @@ import com.config.DbConfig;
 import com.config.MessageConfig;
 
 @Configuration
-@ComponentScan(basePackages="com.util,hello")
+@ComponentScan(basePackages="com.util,com.config")
 @Component
 @Import({MessageConfig.class,DbConfig.class})
 @PropertySource("classpath:app.properties")
