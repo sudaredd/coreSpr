@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public class MessageReceiver implements MessageListener {
 
 	protected static final Log logger = LogFactory.getLog(MessageReceiver.class);

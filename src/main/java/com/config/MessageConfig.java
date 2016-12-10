@@ -12,12 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
-import org.springframework.jms.listener.MessageListenerContainer;
 
-import com.util.MessageReceiver;
 import com.util.MessageSender;
 
 @Configuration
@@ -28,9 +24,6 @@ public class MessageConfig {
 	@Autowired
 	private Environment env;
 
-	@Autowired
-	private MessageReceiver messageReceiver;
-	
 	@Bean
 	public ConnectionFactory activeMqConnectionFactory() {
 		String url = env.getProperty("mq.brokerURL");
@@ -40,18 +33,18 @@ public class MessageConfig {
 		return new ActiveMQConnectionFactory(url);
 	}
 
-	@Bean
+	@Bean("jmsConnectionFactory")
 	public ConnectionFactory connectionFactory() {
 		return new CachingConnectionFactory(activeMqConnectionFactory());
 	}
 	
-	 @Bean("jmsListenerContainerFactory")
+	/* @Bean("jmsListenerContainerFactory")
      public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
        factory.setConnectionFactory(connectionFactory());
        factory.setConcurrency("1-1");
        return factory;
-     }
+     }*/
 	
 
 	@Bean("requestQueue")

@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 
 import com.config.DbConfig;
 import com.config.MessageConfig;
+import com.config.MessageIntConfig;
 
 @Configuration
 @ComponentScan(basePackages="com.util,com.config")
 @Component
 @EnableJms
-@Import({MessageConfig.class,DbConfig.class})
+@Import({MessageConfig.class,DbConfig.class,MessageIntConfig.class})
 @PropertySource("classpath:app.properties")
 public class Application {
 
