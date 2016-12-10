@@ -12,7 +12,7 @@ import app.config.MessageConfig;
 import app.config.MessageIntConfig;
 
 @Configuration
-@ComponentScan(basePackages="app.util,app.config")
+@ComponentScan(basePackages="app.util,app.config,app.service")
 @Component
 @EnableJms
 @Import({MessageConfig.class,DbConfig.class,MessageIntConfig.class})

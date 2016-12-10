@@ -29,6 +29,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 import sun.util.logging.resources.logging;
+import app.service.MessageProcessService;
 import app.util.MessageReceiver;
 import app.util.MessageSender;
 
@@ -64,15 +65,6 @@ public class MessageIntConfig {
 		return IntegrationFlows.from(incomingMsgChannel)
 				.handle(messageProcessService)
 				.get();
-	}
-	
-	@Service
-	private static class MessageProcessService {
-		
-		@ServiceActivator
-		public void processMessage(String message) {
-			logger.info("process message:"+message);
-		}
 	}
 	
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)
