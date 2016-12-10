@@ -1,4 +1,4 @@
-package com.config;
+package app.config;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -29,9 +29,8 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 import sun.util.logging.resources.logging;
-
-import com.util.MessageReceiver;
-import com.util.MessageSender;
+import app.util.MessageReceiver;
+import app.util.MessageSender;
 
 @EnableIntegration
 @Configuration
@@ -49,7 +48,7 @@ public class MessageIntConfig {
 	private Destination requestQueue;
 	
 	@Autowired
-	private ProcessMessageService processMessageService;
+	private MessageProcessService messageProcessService;
 
 	private String incomingMsgChannel = "incomingMsgChannel";
 	
@@ -63,12 +62,12 @@ public class MessageIntConfig {
 	@Bean
 	public IntegrationFlow processMessage() {
 		return IntegrationFlows.from(incomingMsgChannel)
-				.handle(processMessageService)
+				.handle(messageProcessService)
 				.get();
 	}
 	
 	@Service
-	private static class ProcessMessageService {
+	private static class MessageProcessService {
 		
 		@ServiceActivator
 		public void processMessage(String message) {

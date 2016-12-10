@@ -1,4 +1,4 @@
-package com.util;
+package app.util;
 
 import javax.jms.JMSException;
 
@@ -12,7 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.config.MessageConfig;
+import app.config.MessageConfig;
+import app.util.MessageSender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource("classpath:app_test.properties")

@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.util.MessageSender;
+import app.util.MessageSender;
 
 public class ApplicationTest {
 	protected static final Log logger = LogFactory.getLog(ApplicationContext.class);

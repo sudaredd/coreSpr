@@ -1,4 +1,4 @@
-package com.config;
+package app.config;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
@@ -14,7 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 
-import com.util.MessageSender;
+import app.util.MessageSender;
 
 @Configuration
 public class MessageConfig {

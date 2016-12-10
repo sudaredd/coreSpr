@@ -7,12 +7,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.stereotype.Component;
 
-import com.config.DbConfig;
-import com.config.MessageConfig;
-import com.config.MessageIntConfig;
+import app.config.DbConfig;
+import app.config.MessageConfig;
+import app.config.MessageIntConfig;
 
 @Configuration
-@ComponentScan(basePackages="com.util,com.config")
+@ComponentScan(basePackages="app.util,app.config")
 @Component
 @EnableJms
 @Import({MessageConfig.class,DbConfig.class,MessageIntConfig.class})
