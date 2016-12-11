@@ -17,5 +17,10 @@ public class MessageProcessService {
 	@ServiceActivator
 	public void processMessage(String message) {
 		logger.info("process message no:"+counter.getAndIncrement()+ " ,message:"+  message);
+		//test for error handling
+		/*if(counter.get()>1) {
+			throw new RuntimeException("exception while procesing message");
+		}*/
+
 	}
 }
