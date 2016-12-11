@@ -18,6 +18,7 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.MessageSources;
 import org.springframework.integration.dsl.channel.DirectChannelSpec;
 import org.springframework.integration.dsl.channel.MessageChannelSpec;
 import org.springframework.integration.dsl.channel.MessageChannels;
@@ -68,7 +69,8 @@ public class MessageIntConfig {
 	
 	@Bean
 	public IntegrationFlow readMesageFlow() {
-	    return IntegrationFlows.from(Jms.inboundAdapter(jmsConnectionFactory).destination(requestQueue))
+	    return IntegrationFlows.from((MessageSources s) -> s.jms(this.jmsConnectionFactory).destination(requestQueue))
+	    //		Jms.inboundAdapter(jmsConnectionFactory).destination(requestQueue))
 	    		.channel(incomingMsg())
 	                .get();
 	}
@@ -110,7 +112,7 @@ public class MessageIntConfig {
 
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)
 	public PollerMetadata poller() {
-		return Pollers.fixedDelay(0).get();
+		return Pollers.fixedRate(0).get();
 	}
 	
 	@Bean
