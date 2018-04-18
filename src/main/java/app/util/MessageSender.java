@@ -8,8 +8,6 @@ import javax.jms.JMSException;
 import org.springframework.jms.core.JmsTemplate;
 
 public class MessageSender {
-
-
 	private ConnectionFactory connectionFactory;
     private Destination destination;
     private int messagesSent;
