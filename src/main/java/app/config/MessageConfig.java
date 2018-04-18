@@ -29,8 +29,8 @@ public class MessageConfig {
 		String url = env.getProperty("mq.brokerURL");
 		String uname = env.getProperty("mq.userName");
 		String password = env.getProperty("mq.password");
-	//	return new ActiveMQConnectionFactory(uname, password, url);
-		return new ActiveMQConnectionFactory(url);
+		return new ActiveMQConnectionFactory(uname, password, url);
+	//	return new ActiveMQConnectionFactory(url);
 	}
 
 	@Bean("jmsConnectionFactory")

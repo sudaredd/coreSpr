@@ -21,7 +21,7 @@
 		class="org.apache.log4j.DailyRollingFileAppender">
         <param name="File" value="./logs/core_spr.log" />
         <param name="DatePattern" value="'.'yyyy-MM-dd-hh:mm:ss" />
-        <param name="Threshold" value="INFO" />
+        <param name="Threshold" value="DEBUG" />
         <layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
             	value="%d{ISO8601} [%t] %X{msg_id} %X{pw_id} %X{fifo_id} %-5p (%c:%L) %x - %m%n" />

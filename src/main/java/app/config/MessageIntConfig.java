@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
@@ -79,6 +80,7 @@ public class MessageIntConfig {
 	public IntegrationFlow processMessage() {
 		return IntegrationFlows.from(incomingMsgChannel)
 				.handle(messageProcessService,"processMessage",e->e.advice(retryAdvice()))
+				.resequence()
 				.get();
 	}
 	
@@ -115,9 +117,13 @@ public class MessageIntConfig {
 		return Pollers.fixedRate(0).get();
 	}
 	
+	@Autowired
+	private TaskExecutor taskExecutor;
+	
 	@Bean
 	public MessageChannelSpec incomingMsg() {
-		return MessageChannels.direct(incomingMsgChannel);
+		//return MessageChannels.direct(incomingMsgChannel);
+		return MessageChannels.executor(incomingMsgChannel,taskExecutor);
 	}
 	
 	@Bean
