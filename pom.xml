@@ -236,7 +236,7 @@
 </repositories>
 	<properties>
 		<spring.int.version>4.3.24.RELEASE</spring.int.version>
-		<spring.version>5.2.22.RELEASE</spring.version>
+		<spring.version>5.2.24.RELEASE</spring.version>
 		<jdk.version>1.8</jdk.version>
 	</properties>
 </project>
