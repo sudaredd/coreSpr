@@ -1,6 +1,6 @@
 package app;
 
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
