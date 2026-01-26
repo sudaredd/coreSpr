@@ -1,8 +1,8 @@
 package app.config;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
-import javax.jms.Queue;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Destination;
+import jakarta.jms.Queue;
 
 import org.aopalliance.aop.Advice;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -18,13 +18,9 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.MessageSources;
-import org.springframework.integration.dsl.channel.DirectChannelSpec;
-import org.springframework.integration.dsl.channel.MessageChannelSpec;
-import org.springframework.integration.dsl.channel.MessageChannels;
-import org.springframework.integration.dsl.core.Pollers;
-import org.springframework.integration.dsl.jms.Jms;
+import org.springframework.integration.dsl.MessageChannels;
+import org.springframework.integration.dsl.Pollers;
+import org.springframework.integration.jms.dsl.Jms;
 import org.springframework.integration.handler.advice.ErrorMessageSendingRecoverer;
 import org.springframework.integration.handler.advice.RequestHandlerRetryAdvice;
 import org.springframework.integration.scheduling.PollerMetadata;
@@ -38,7 +34,6 @@ import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 
-import sun.util.logging.resources.logging;
 import app.service.MessageProcessService;
 import app.util.MessageReceiver;
 import app.util.MessageSender;
@@ -70,15 +65,14 @@ public class MessageIntConfig {
 	
 	@Bean
 	public IntegrationFlow readMesageFlow() {
-	    return IntegrationFlows.from((MessageSources s) -> s.jms(this.jmsConnectionFactory).destination(requestQueue))
-	    //		Jms.inboundAdapter(jmsConnectionFactory).destination(requestQueue))
+	    return IntegrationFlow.from(Jms.inboundAdapter(jmsConnectionFactory).destination(requestQueue))
 	    		.channel(incomingMsg())
-	                .get();
+	            .get();
 	}
 	
 	@Bean
 	public IntegrationFlow processMessage() {
-		return IntegrationFlows.from(incomingMsgChannel)
+		return IntegrationFlow.from(incomingMsgChannel)
 				.handle(messageProcessService,"processMessage",e->e.advice(retryAdvice()))
 				.resequence()
 				.get();
@@ -86,7 +80,7 @@ public class MessageIntConfig {
 	
 	@Bean
 	public IntegrationFlow handleErrorMessageFlow() {
-		return IntegrationFlows.from(errorMsgChannel())
+		return IntegrationFlow.from(errorMsgChannel())
 				.handle(errorMessageHandler)
 				.get();
 	}
@@ -114,21 +108,20 @@ public class MessageIntConfig {
 
 	@Bean(name = PollerMetadata.DEFAULT_POLLER)
 	public PollerMetadata poller() {
-		return Pollers.fixedRate(0).get();
+		return Pollers.fixedRate(0).getObject();
 	}
 	
 	@Autowired
 	private TaskExecutor taskExecutor;
 	
 	@Bean
-	public MessageChannelSpec incomingMsg() {
-		//return MessageChannels.direct(incomingMsgChannel);
-		return MessageChannels.executor(incomingMsgChannel,taskExecutor);
+	public MessageChannel incomingMsg() {
+		return MessageChannels.executor(incomingMsgChannel,taskExecutor).getObject();
 	}
 	
 	@Bean
 	public MessageChannel errorMsgChannel() {
-		return MessageChannels.direct(errorMessageChannel).get();
+		return MessageChannels.direct(errorMessageChannel).getObject();
 	}
 	
 	@Service("errorMessageHandler")
